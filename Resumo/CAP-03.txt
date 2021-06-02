@@ -1,0 +1,66 @@
+Capítulo 03 - Mapeando objetos com o Map
+Nesse capítulo aprendemos:
+
+
+⦁	No diagrama, vimos que o Map não está na hierarquia de Collections, mas ele é considerado collection, pelo fato dele também armazenar uma coleção de itens (valores, objetos..);
+
+⦁	Um Map é composto por Chave/Valor, e a chave é sempre única naquele map, já os valores podem repetir;
+
+⦁	Criando um mapa:
+
+//Criando um mapa, cujo a chave sera do tipo Int o seu Valor do tipo Double
+
+val pedidosMap = mapOf<Int, Double>(Pair(1, 20.0), Pair(2, 30.0))
+
+//Alternativa 2 para criar um mapa, cujo a chave sera do tipo Int o seu Valor do tipo Double. É mais usado, mas tem desempenho pior!
+
+val pedidos = mapOf<Int, Double>((1 to 20.0), (2 to 30.0))
+
+⦁	Acessando um valor através de sua chave:
+
+//Acessando valor via chave, aqui não é indice:
+val pedidoId20: Double? = pedidos[1]
+pedidoId20?.let {
+    println("Pedido $it")
+}
+
+Usamos o let, que é uma função de contexto, onde o objeto que chama é jogado para dentro da função que executará. Do modo que fizemos (pedidoid20?.let) só entrará na função quando o valor for diferente de null;
+
+⦁	Percorrendo map com for:
+//Percorrendo map com for:
+for (pedido in pedidos){
+    println(pedido)
+    println("Chave do pedido ${pedido.key}")
+    println("Valor do pedido ${pedido.value}")
+}
+
+
+⦁	Adicionando elemento:
+//Adicionando
+pedidosMapMutavel[1] = 35.0
+
+//Adicionando alternativa 2 = Chave , Valor
+pedidosMapMutavel.put(2, 55.0)
+
+//Adicionar com a seguinte verificação: adiciona se não tiver essa chave, se tiver nao adiciona e NÃO ATUALIZA!
+pedidosMapMutavel.putIfAbsent(2, 75.0)
+
+
+⦁	Atualizando elemento:
+//Atualizando:
+pedidosMapMutavel[1] = 36.0
+
+//Atualizando alternativa 2 = Chave, Novo Valor
+pedidosMapMutavel.put(2, 75.0)
+
+⦁	Removendo elemento:
+//Remove item através da chave!
+pedidosMapMutavel.remove(2)
+
+//Remove se o item com chave X tiver o valor passado!
+pedidosMapMutavel.remove(1, 100.00)
+
+
+
+
+

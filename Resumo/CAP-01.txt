@@ -1,0 +1,60 @@
+Capítulo 01 - Conhecendo a base de Collection
+Nesse capítulo aprendemos:
+
+https://kotlinlang.org/docs/collections-overview.html
+⦁	Que existe uma hierarquia entre as estruturas de dados. O conjunto com toda essa hierarquia chama-se collections. Na collections há diversas interfaces, por exemplo:
+
+Temos a interface interable que é "mãe" da interface Collection;
+A interface Collection é "mãe" de: List e Set;
+A interface List é mãe de MutableList;
+A interface Set é mãe de Mutable Set;
+A interface Map (que não tem pai) é mãe de  MutableMap
+
+(Existe ainda a MutableInterable que é filha de Iterable)
+(Existe ainda a MutableCollection que é filha de Collection e de MutableInterable)
+(MutableCollection também é pai de MutableList e MutableSet)
+
+Ou seja, se tivermos uma lista declarada da seguinte forma:
+
+	listaNome: List<String> = listOf("Rodrigo", "Priscila"...)
+
+E alterarmos a declarção para:
+
+	listaNome: Collection<String> = listOf("Rodrigo", "Priscila"...)
+
+Vai continuar funcionando, pois as coisas genéricas das collections estão nos níveis mais alto da hierarquia (nos pais/mães). Agora se declararmos da seguinte forma: 
+
+	listaNome: Iterable<String> = listOf("Rodrigo", "Priscila"...)
+
+E tentar usar: listaNome.size() não vai funcionar, pois as coisas específicas, como o size() é apenas na List ou MutableList
+
+Resumindo: As coisas genéricas (adicionar elemento e percorrer com for-in) estão no nível superior da hierarquia (pais), já as coisas específicas, ficam  no nível inferior (filhos)
+
+⦁	Tipos de coleções: ReadOnly e Mutable:
+
+Temos coleções que só aceitam leitura (Read Only) e coleções que deixa manipularmos os itens da coleção (Mutable - essas coleçoes tem mutable no nome)
+
+As Mutable também possuem sua hierarquia, ou seja, a lista:
+
+	val nomes: MutableList<String> = mutableListOf
+
+funciona se mudarmos para:
+
+	val nomes: MutableCollection<String> = mutableListOf
+
+Mas é como foi dito, conforme vamos subindo, vamos perdendo as coisas específicas!
+
+Fizemos um exemplo de banco utilizando uma lista mutavel para servir como banco de dados (deixamos get e set privado), pois assim ninguem de fora tem acesso.
+Criamos um método para permitir adicionar itens (nomes) nessa lista e criamos uma lista Read Only (do tipo collection) para seu get devolver os itens da primeira lista.
+Por fim fizemos a primeira lista virar um companion, assim será única para aplicação toda.
+
+⦁	Copia:
+No exemplo do banco de nomes, citado anteriormente nós criamos uma lista do tipo collection (Read Only) com o objetivo dessa devolver os itens da lista que faz papel do banco de dados (essa é mutável), seu código ficou assim:
+
+	val nomes: Collection<String> get() = dados
+
+O problema que quem acessa essa propertie pode forçar via cast essa virar uma lista mutável e começar a adicionar itens nela, e não queremos permitir isso, então o código anterior tem que ser:
+
+	val nomes: Collection<String> get() = dados.toList()
+
+Com o toList() vamso estar devolvendo uma lista de verdade, e não uma referencia! Logo o usuário não vai conseguir fazer cast!

@@ -1,0 +1,146 @@
+Capítulo 04 - Explorando operações específicas do Map
+Nesse capítulo aprendemos:
+
+⦁	Pegando valor de um mapa, mas agora vou apresentar uma maneira que lança excpetion, caso a chave nao exista:
+
+val pedidos = mapOf<Int, Double>(Pair(1, 20.0), Pair(2, 30.0))
+
+//Pegar o valor desse jeito, de uma key inexistente retorna null
+val valorPedido: Double?= pedidos[100]
+println(valorPedido)
+
+//O mesmo vale para pegar o valor assim:
+val valorPedido2: Double? = pedidos.get(100)
+println(valorPedido2)
+
+//As vezes queremos que ao pegar um valor de key inexistente exploda uma exception, entao fazemos:
+val valorPedido3: Double = pedidos.getValue(100)
+println(valorPedido3)
+
+⦁	Retorno com lambda:
+
+//Fazendo retorno na expressa lambda:
+pedidos.getOrElse(100) {
+    println("Quando a chave nao existe, caímos aqui!")
+}
+
+Ou
+
+//Fazendo retorno na expressa lambda:
+val mensagem = pedidos.getOrElse(100) {
+   "Não achei"
+}
+println(mensagem)
+
+⦁	Defenindo valor padrão:
+
+//Garantindo um valor padrão, caso a chave nao exista:
+val valorPadrao = pedidos.getOrDefault(100, -100.0)
+println(valorPadrao)
+
+⦁	Pegando conjunto de todas as chaves de um map:
+for (chave in pedidos.keys) {
+    println("É uma chave: $chave")
+}
+
+
+⦁	Pegando conjunto de todas  valores de um map:
+
+for (valor in pedidos.values) {
+    println("É um valor: $valor")
+}
+
+⦁	Aplicando filtro na chave com valor:
+
+//Filtros:
+//Nesse temos que enviar o pair (Chave~Valor)
+//Vamos filtrar: pegar os com chaves pares e valores maiores que 50
+val pedidosFiltrador = pedidos.filter { (numero, valor) ->
+    numero % 2 == 0 && valor > 50
+}
+println(pedidosFiltrador)
+
+⦁	Aplicando filtro só no valor:
+//Filtros nos valores. Vamos pegar valores maiores que 100:
+//Não precisamos passar o pair (chave / valor)
+val pedidoValorFiltrado = pedidos.filterValues { valor ->
+    valor > 100
+}
+println(pedidoValorFiltrado)
+
+⦁	Aplicando filtro nas chaves:
+//Filtros nas chaves. Pegar somente os que tem chave impares:
+//Não precisamos passar o pair (chave / valor)
+val pedidoChaveFiltrado = pedidos.filterKeys{ chave ->
+    chave % 2 != 0
+}
+println(pedidoChaveFiltrado)
+
+⦁	Escrita específica no Map: temos a capacidade de criar novos map's com a soma, subtração de outros dois mapas. O MAP ORIGINAL NÃO SERÁ AFETADO!;
+
+⦁	Somando no map, alternativa 1:
+
+//Somando a um map mais um par de chave~valor.
+//O resultado vai para outro mapa, o map pedidos não é alterado!
+println(pedidos + Pair(7, 250))
+println(pedidos)
+
+⦁	Somando no map, alternativa 2:
+
+//Somando a um map com outro.
+//O resultado vai para outro mapa, o map pedidos não é alterado!
+println(pedidos + mapOf(7 to 90.0, 8 to 10.0))
+println(pedidos)
+
+⦁	Somando no map, alternativa 3:
+
+//Somando a um map com outro.
+//O resultado vai para outro mapa, o map pedidos não é alterado!
+println(pedidos + (7 to 90.0) + (8 to 133.0))
+println(pedidos)
+
+⦁	Subtraindo do map, alternativa 1:
+//Subtraindo
+//Podemos subtrair com a chave
+println(pedidos - 6)
+println(pedidos)
+
+⦁	Subtraindo do map, alternativa 2:
+
+
+//Subtraindo
+//Podemos subtrair com uma lista de chaves
+println(pedidos - listOf(1, 2))
+println(pedidos)
+
+⦁	Escrita específica no Map, MAS AGORA VAMOS ALTERAR O MAP original (fonte):
+
+//Criando a lista nova
+val pedidos2 = mutableMapOf(Pair(1, 20.0), Pair(2, 30.0), 3 to 50.0, 4 to 100.0, 5 to 150.00, 6 to 88.0)
+
+//Adicionando um conjunto que tem pares no mapa
+//Poderia ser uma list no lugar do set
+pedidos2.putAll(setOf<Pair<Int, Double>>(7 to 90.0, 8 to 255.0))
+println(pedidos2)
+
+Outra alternativa:
+
+//Adicionando um conjunto que tem pares no mapa
+//Poderia ser uma lista no lugar do set
+pedidos2 += setOf<Pair<Int, Double>>(7 to 90.0, 8 to 255.0)
+
+⦁	Removendo valor, diretamente no map original (fonte):
+
+//Removendo com chave, já vimos no outro arquivo (básico), mas tem outro método para isso:
+pedidos2.keys.remove(4)
+println(pedidos2)
+
+//Vamos remover com o valor, e o primeiro valor encontrado será removido, ou seja,
+//Se tiver valores repetidos somente um é removido!
+pedidos2.values.remove(20.0)
+println(pedidos2)
+
+//Outra alternativa de remoção com chave:
+//Vamos remover a chave 2
+pedidos2 -= 2
+println(pedidos2)

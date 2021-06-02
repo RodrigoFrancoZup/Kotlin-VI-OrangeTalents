@@ -1,0 +1,65 @@
+Capítulo 02 - Criando Coleções com Set
+Nesse capítulo aprendemos:
+
+
+⦁	Nesse tipo de estrutura não há repetição de valor. No nosso exemplo vamos juntar duas listas, que ocasionará a duplicidade de valores e ao colocar o resultado no conjunto veremos que não haverá mais duplicidade;
+
+⦁	No conjunto não há indice;
+
+⦁	Em lista, podemos eliminar a duplicidade com o método distinct(), esse retorna uma outra lista tirando itens repetidos,assim teremos o mesmo resultado que usar o conjunto;
+
+⦁	Para criar um conjunto, fazemos:
+	
+val assistiramCursoAndroid = setOf("Rodrigo", "Alex", "Gui", "Fran")
+
+ou
+
+val assistiramCursoAndroid = setOf<String>()
+
+
+Obs: no lugar de setOf podemos usar o mutableSetOf
+
+⦁	Olha como ficou o nosso exemplo de uso:
+
+//Lista de pessoas que assistiram o curso android
+val assistiramCursoAndroid = listOf("Rodrigo", "Alex", "Gui", "Fran")
+
+//Lista de pessoas que assistiram o curso kotlin
+val assistiramCursoKotlin = listOf("Rodrigo", "Paulo", "Rogerio", "Fran")
+
+//Criando um conjunto e colocando nela os idens de duas outras duas listas
+val assistiramAmbos: MutableSet<String> = (assistiramCursoAndroid + assistiramCursoKotlin).toMutableSet()
+
+//Adicionando elementos no conjunto, o Rodrigo não vai, pois já tem!
+assistiramAmbos.add("Rodrigo")
+assistiramAmbos.add("Irineu")
+
+//Veremos que não teremos itens repetidos
+println(assistiramAmbos)
+
+⦁	Conjunto possui algunas funções específicas, são elas:
+
+//Conjunto de pessoas que assistiram o curso android
+val assistiramCursoAndroidSet = listOf("Rodrigo", "Alex", "Gui", "Fran")
+
+//Conjunto de pessoas que assistiram o curso kotlin
+val assistiramCursoKotlinSet = listOf("Rodrigo", "Paulo", "Rogerio", "Fran")
+
+//União de dois conjuntos! O seu resultado não aceitará repetição!
+val assistiramAmbosSet = assistiramCursoAndroidSet union assistiramCursoKotlinSet
+
+//a função union pode ser usada do jeito que foi ou:
+// val assistiramAmbosSet = assistiramCursoAndroidSet.union(assistiramCursoKotlinSet) ou
+// val assistiramAmbosSet = assistiramCursoAndroidSet union(assistiramCursoKotlinSet)
+
+//Soma de dois conjuntos! O seu resultado não aceitará repetição!
+val assistiramAmbosSet2 = assistiramCursoAndroidSet + assistiramCursoKotlinSet
+
+//Diferença de dois conjuntos! O seu resultado será: pega quem assistiu curso android,
+// e vai tirar os elemtos que também estão no conjunto do curso Kotlin
+val assistiramAmbosSet3 = assistiramCursoAndroidSet + assistiramCursoKotlinSet
+
+//Interseção, seu resultado será os itens que estão no conjunto do curso de android e kotlin, ou seja, quem assistiu os dois cursos!
+val assistiramAmbosSet4 = assistiramCursoAndroidSet intersect  assistiramCursoKotlinSet
+
+⦁	Ao termos uma lista ou outro conjunto, sempre haverá funções para transformá-lo em outro tipo. Exemplo, em uma lista temos a função .toSet() ou .toMutableSet, vice-versa, etc...
